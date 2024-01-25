@@ -3,18 +3,23 @@ import matplotlib.pyplot as plt
 from nn import FCLayer, NN
 
 
-def test_network():
-    """ Test neural network, aim is learning the sine function. """
-
+def generate_sine_data():
+    """ Generate sine sample data. """
     # generate some data
     x = np.linspace(0, 2*np.pi, 2000)  # even distribution across x
     np.random.shuffle(x)            # shuffle x's
-    y = np.sin(x)+np.random.rand(x.shape[0])/10.0  # calculate y's
+
+    # calculate Y's, adding noise
+    y = np.sin(x)+np.random.rand(x.shape[0])/10.0
+
     # get the final form of X,Y
     X = np.array(x/2/np.pi)
     Y = y/y.max()
-    # Note we're offsetting Y's as we're using sigmoid activations,
-    # which don't allow the network to predict negative values.
+    return X, Y
+
+
+def generate_split(X, Y, validation_split=0.15):
+    """ Splits input data into training and validation data. """
     validation_split = 0.15
     split_index = int(np.round(X.shape[0]*(1-validation_split)))
 
@@ -24,7 +29,17 @@ def test_network():
     X_val = X[split_index:]
     Y_val = Y[split_index:]
 
-    # set params
+    return X_train, Y_train, X_val, Y_val
+
+
+def test_network():
+    """ Test neural network, aim is learning the sine function. """
+
+    # generate data, make the split
+    X, Y = generate_sine_data()
+    X_train, Y_train, X_val, Y_val = generate_split(X, Y)
+
+    # our training params
     lr = 0.1
     epochs = 500
 
@@ -33,6 +48,7 @@ def test_network():
               FCLayer("hidden_1", 20, 20),
               FCLayer("output", 20, 1)]
     nn = NN(layers)
+
     # train
     train_metric, validation_metric = nn.train(learning_rate=lr,
                                                max_epochs=epochs,
