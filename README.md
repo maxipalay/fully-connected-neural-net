@@ -13,7 +13,7 @@ Running `run.py` will start a training on the noisy sine function.
 
 ### Sample output
 
-While training, metrics will print on every epoch. Sample output:
+While training, metrics will print every 10th epoch. Sample output:
 
 ```
 starting training...
