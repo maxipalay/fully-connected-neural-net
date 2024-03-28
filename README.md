@@ -1,6 +1,6 @@
-# MultiLayer Perceptron
+# Fully Connected Neural Network
 
-A python implementation of a Multi Layer Perceptron (MLP) using numpy.
+A python implementation of a Fully Connected Neural Network from scratch using numpy.
 
 ![results](images/predictions%20vs%20ground%20truth.png)
 
